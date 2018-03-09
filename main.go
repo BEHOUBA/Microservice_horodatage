@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"net/http"
 	"strconv"
 	"time"
@@ -18,6 +19,7 @@ type Time struct {
 
 func main() {
 	router := mux.NewRouter()
+	router.HandleFunc("/", indexFunc)
 	router.HandleFunc("/{time}", getTime)
 
 	http.ListenAndServe(":8080", router)
@@ -42,4 +44,9 @@ func unixToHuman(value int64) string {
 	time := time.Unix(value, 0)
 	year, month, day := time.Date()
 	return month.String() + " " + strconv.Itoa(day) + ", " + strconv.Itoa(year)
+}
+
+func indexFunc(w http.ResponseWriter, r *http.Request) {
+	template := template.Must(template.ParseFiles("index.html"))
+	template.Execute(w, nil)
 }
