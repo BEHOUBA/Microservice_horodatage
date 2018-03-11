@@ -50,7 +50,7 @@ func getTime(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, jsonResponse)
 }
 
-// jsonMaker
+// jsonMaker to create the json string from time information
 func jsonMaker(unix int, human string) string {
 	response := Time{unix, human}
 	jsonData, _ := json.Marshal(response)
